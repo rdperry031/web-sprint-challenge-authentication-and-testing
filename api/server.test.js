@@ -71,7 +71,7 @@ describe('[GET] /api/jokes', () => {
       .get('/api/jokes')
       .set('Authorization', null);
     expect(res.status).toBe(401);
-    expect(res.body.message).toMatch(/invalid token/i);
+    expect(res.body.message).toMatch(/token invalid/i);
   });
   test('responds with list of jokes with valid token', async () => {
     await request(server)

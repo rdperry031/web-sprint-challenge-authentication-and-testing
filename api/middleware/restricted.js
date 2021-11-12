@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     if (err) {
       next({
         status: 401,
-        message: 'Invalid token',
+        message: 'token invalid',
         stack: err.message,
       });
     } else {
