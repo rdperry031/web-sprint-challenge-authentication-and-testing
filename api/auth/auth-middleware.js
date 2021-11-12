@@ -27,7 +27,22 @@ const validateNewUser = async (req, res, next) => {
     }
 }
 
+const checkUsernameExists = async (req, res, next) => {
+    try{
+        const { username } = req.body
+        const [user] = await Users.findBy({username})
+        if(!user){
+            next({ status: 401, message: 'Invalid credentials'})
+        }else{
+            req.user = user
+            next()
+        }
+    }catch(err){
+        next()
+    }
+}
 module.exports = {
     checkUsernameAvailable,
-    validateNewUser
+    validateNewUser,
+    checkUsernameExists
 }
