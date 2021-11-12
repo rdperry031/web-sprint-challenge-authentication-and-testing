@@ -14,7 +14,7 @@ const Users = require('../users/users-model')
      }
 }
 
-const validateNewUser = async (req, res, next) => {
+const validateUser = async (req, res, next) => {
     try{
         const { username, password } = req.body
         if( !username || !password ){
@@ -43,6 +43,6 @@ const checkUsernameExists = async (req, res, next) => {
 }
 module.exports = {
     checkUsernameAvailable,
-    validateNewUser,
+    validateUser,
     checkUsernameExists
 }
