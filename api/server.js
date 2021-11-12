@@ -20,7 +20,7 @@ server.use('/api/users', userRouter);
 
 server.use((err, req, res, next) => {
     res.status(err.status || 500).json({
-        message: 'Internal server error',
+        message: err.message,
         stack: err.stack
     })
 })

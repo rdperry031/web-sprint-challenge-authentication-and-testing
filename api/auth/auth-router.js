@@ -1,7 +1,21 @@
 const router = require('express').Router();
+const { JWT_SECRET, BCRYPT_ROUNDS} = require('../secrets/index')
+const Users = require('../users/users-model')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const buildToken = require('./token-builder')
+const{ checkUsernameAvailable, validateNewUser } = require('./auth-middleware')
 
-router.post('/register',  async (req, res, next) => {
-  
+router.post('/register', validateNewUser, checkUsernameAvailable, async (req, res, next) => {
+  try{
+    const user = req.body
+    const hash = bcrypt.hashSync(user.password, Number(BCRYPT_ROUNDS)) // <<<Why do I need to convert BCRYPT_ROUNDS to a number? In the auth2 project setting BCRYPT_ROUNDS to 12 in .env saved it as a number, but now for some reason BCRYPT_ROUNDS: 8 is saving 8 as a string. 
+    user.password = hash
+    const newUser = await Users.add(req.body)
+    res.status(201).json(newUser)
+  }catch(err){
+    next(err)
+  }
   
   
   /*
